@@ -22,40 +22,50 @@ head(m, n=100)
 a = sample(x, 1000, replace = FALSE) 
 sd(a) #lowest SE wins
 
-g = 1
-i = 1
 b = 1
 c = 1
 d = 1
-e = 1
+e = 17
 f = 1
 g = 1
-q = 1
+h = 1
+i = 1
+j = 1
+l = 10
 
+q = 1
 best = 1
+
 z = 1
 while(sd(a) > .9) {
-  g = 1
-  i = 1
   z = z -.001
   while(sd(a) > z) {
     a = sample(x, 1000, replace = FALSE, prob = relative_probability)
-    b = runif(1, min=-30, max = 30)
-    c = runif(1, min=0, max = 30)
-    d = runif(1, min=0, max = 30)
-    e = runif(1, min=0, max = 17)
-    f = runif(1, min=0, max = 30)
-    relative_probability = ((c/(d/((age-e)^b)))*f)
-    i=i+1
+    b = runif(1, min=0, max = 50)
+    c = runif(1, min=5, max = 50)
+    d = runif(1, min=0, max = 50)
+    e = runif(1, min=0, max = 17)##
+    f = runif(1, min=0, max = 17)##
+    g = runif(1, min=0, max = 5)
+    h = runif(1, min=0, max = 50)
+    i = runif(1, min=0, max = 50)
+    j = runif(1, min=0, max = 50)
+    k = runif(1, min=1, max = 5)
+    l = runif(1, min=50, max = 1000)
+    relative_probability = (k / abs(b*(age-e)^c + d*(age-f)^(c-g) + h*(age-i)))*l
+    #relative_probability = f/(c*((age-e)^b) + d*(age-e)) SE of 0.951594276020579
+    #relative_probability = d/(f/(sqrt(abs(log((age-e)^b)))/c)) SE of ~1.48
+    #relative_probability = (c/exp(age-16)^b)/f
+    #relative_probability = ((c/(d/((age-e)^b)))*f)
     q=q+1
     if(sd(a) < best) {
       best = sd(a)
     }
   }
-  print(paste0("SE:", z, "   Total Tries:", q, "   Below:", g, "   Rate:", (g/i), "   Num:", sd(a)))
+  print(paste0("SE:", z, "   Total Tries:", q, "   Num:", sd(a)))
   print(paste0("B:", b, "   C:", c, "   D:", d, "   E:", e, "   F:", f))
 }
-
+print(sd(a))
 
 
 print(i)
@@ -86,12 +96,6 @@ print(d)
 # "B:23.8622518116608   C:24.4190299557522   D:17.5499470392242   E:4.15552669065073   F:15.8223225991242"
 # "SE:0.94   Tries:1   Below:1   Rate:1   Num:0.939807067826474"
 # "B:-29.8777874512598   C:29.9454751680605   D:7.95429044170305   E:9.51620828732848   F:2.55061083706096"
-# "SE:0.934   Tries:1   Below:1   Rate:1   Num:0.933801679483302"
-# "B:2.23560463171452   C:9.95420662919059   D:18.5454311664216   E:7.62221013498493   F:26.7831447604112"
-# "SE:0.934   Total Tries:4197   Below:1   Rate:1   Num:0.933701647279744"
-# "B:-27.0857559610158   C:22.3438722803257   D:14.108622148633   E:12.6510289353319   F:0.103189945220947"
-# "SE:0.929   Total Tries:764106   Below:1   Rate:1   Num:0.928901807731468"
-# "B:-8.01081854850054   C:12.1789230778813   D:27.3284461023286   E:4.3468705532141   F:24.6175642311573"
 
 
 #e=260/10687
