@@ -67,6 +67,9 @@ while(sd(a) > .9) {
 }
 print(sd(a))
 
+# "SE:0.938   Total Tries:172808   Num:0.937807576346105"
+# "B:48.6301343189552   C:30.3725352243055   D:6.00807961309329   E:14.9540355808567   F:4.81093135918491"
+# 209538 tries when ended
 
 print(i)
 m = matrix(c(ind,age,relative_probability),ncol=3,byrow=F)
