@@ -3,20 +3,18 @@
 #2019/09/29
 
 set.seed(100)
-
 ind = 1:20000 #index
 #h = rnorm(20000, 64, 3) #height
 age = runif(20000,17,24) #age
 x = 54+ .5*age +rnorm(20000) #real height
-
+relative_probability = 10/((age-17)*1.5)
 m = matrix(c(ind,age,relative_probability),ncol=3,byrow=F)
 head(m, n=100)
 
 #The problem: estimate the average height, assess the uncertainty in your estimate
 #1. how to assign the probabilities
-#2. how to (w/simulations or a loop) assess uncertainty
-#Ideas
-#oversample old, undersample young
+#2. how to (w/simulations or a FOR loop) assess uncertainty
+#Basis: oversample old, undersample young
 #big denominator when old, small when young, so on paper everyone is the same height
 
 a = sample(x, 1000, replace = FALSE) 
@@ -32,7 +30,7 @@ f = 1
 g = 1
 q = 1
 
-best = 1
+# best = 1
 z = 1
 while(sd(a) > .9) {
   g = 1
@@ -45,26 +43,16 @@ while(sd(a) > .9) {
     d = runif(1, min=0, max = 30)
     e = runif(1, min=0, max = 17)
     f = runif(1, min=0, max = 30)
-    relative_probability = ((c/(d/((age-e)^b)))*f)
+    relative_probability = (c/(d/((age-e)^b)))*f
     i=i+1
     q=q+1
-    if(sd(a) < best) {
-      best = sd(a)
-    }
+    # if(sd(a) < best) {
+    #   best = sd(a)
+    # }
   }
   print(paste0("SE:", z, "   Total Tries:", q, "   Below:", g, "   Rate:", (g/i), "   Num:", sd(a)))
   print(paste0("B:", b, "   C:", c, "   D:", d, "   E:", e, "   F:", f))
 }
-
-
-
-print(i)
-m = matrix(c(ind,age,relative_probability),ncol=3,byrow=F)
-head(m, n=100)
-print(sd(a))
-print(b)
-print(c)
-print(d)
 
 #relative_probability = c/(d/((age-17)^b)) for 1.05 with c=1.61768409074284, d=1.1361458315514, b=4.7136531281285
 #.9865888 with b = 10.6165657269303, c=1.45140942069702, d=11.6504042199813
@@ -90,10 +78,18 @@ print(d)
 # "B:2.23560463171452   C:9.95420662919059   D:18.5454311664216   E:7.62221013498493   F:26.7831447604112"
 # "SE:0.934   Total Tries:4197   Below:1   Rate:1   Num:0.933701647279744"
 # "B:-27.0857559610158   C:22.3438722803257   D:14.108622148633   E:12.6510289353319   F:0.103189945220947"
-# "SE:0.929   Total Tries:764106   Below:1   Rate:1   Num:0.928901807731468"
+# "SE:0.929   Total Tries:764106   Below:1   Rate:1   Num:0.928901807731468"  Seen @7pm 9/29
 # "B:-8.01081854850054   C:12.1789230778813   D:27.3284461023286   E:4.3468705532141   F:24.6175642311573"
+# "SE:0.928   Total Tries:1278744   Below:43355   Rate:0.0842435182720315   Num:0.92755643535237" Seen @ 7am 9/30
+# "B:19.6758358832449   C:0.124512033071369   D:4.27297461312264   E:11.5276464489289   F:16.7498763673939"
+# "SE:0.921   Total Tries:7199741   Below:1   Rate:1   Num:0.920176113551661"  Seen @ 2pm 10/1
+# "B:10.0532033666968   C:23.6118650366552   D:9.13625508081168   E:6.48440993577242   F:26.0457830736414"
 
 
-#e=260/10687
-#w/o=63/2473
-#w/o=49/1934
+print(i)
+m = matrix(c(ind,age,relative_probability),ncol=3,byrow=F)
+head(m, n=100)
+print(sd(a))
+print(b)
+print(c)
+print(d)
