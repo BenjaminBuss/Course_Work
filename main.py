@@ -1,5 +1,6 @@
 # Benjamin Buss
 # CS 1400
+# December 2019
 # Project 8: Was Clinton Right?
 
 import csv
