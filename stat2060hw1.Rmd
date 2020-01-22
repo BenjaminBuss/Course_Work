@@ -1,0 +1,71 @@
+---
+title: "STAT 2060 HW 1"
+author: "Benjamin Buss"
+date: "1/22/2020"
+output: html_document
+---
+#Homework 1 - STAT 2060 - Benjamin Buss
+1. (6 pts) Enter the following data in R and call it P1:
+23,45,67,46,57,23,83,59,12,64
+
+```{r}
+P1 <- c(23,45,67,46,57,23,83,59,12,64)
+```
+
+a. What is the maximum value?
+```{r}
+max(P1)
+```
+
+b. What is the minimum value?
+```{r}
+min(P1)
+```
+
+c. What is the mean value?
+```{r}
+mean(P1)
+```
+
+2. (6 pts) Oh no! The next to last (9th) value was mistyped - it should be 42.
+a. Change it, and see how the mean has changed.
+```{r}
+P2 <- c(23,45,67,46,57,23,83,59,42,64)
+mean(P2)
+mean(P2) - mean(P1)
+```
+
+b. How many values are greater than 40 in the correct data set?
+```{r}
+sum(P2 > 40)
+```
+
+
+c. What is the mean of values which are over 40 in the correct dataset?
+```{r}
+P3 <- c(45, 67, 46, 57, 83, 59, 42,64)
+mean(P3)
+```
+
+
+3. (8 pts) Using the data from problem 2 find
+a. the sum of P1
+```{r}
+sum(P2)
+```
+
+b. the mean (using the sum and length(P1))
+```{r}
+sum(P2)/length(P2)
+```
+
+c. the log(base10) of P1
+```{r}
+log10(P2)
+```
+
+d. the deviaions: the difference between each element of P1 and the mean of P1.
+```{r}
+mean(P2) - P2
+```
+

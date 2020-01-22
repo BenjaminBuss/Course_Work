@@ -1,0 +1,78 @@
+---
+title: "R Notebook"
+output:
+  word_document: default
+  html_notebook: default
+---
+STAT 4100 Homework 2 - Benjamin Buss   Due Jan 221.    
+
+(20 pts) Describe an appropriate experimental design for each of the following situations. Be sure to identify experiment unit, factor, treatments (fixed or random), block, ect.
+
+a.  A political scientist wishes to study how polling methods affect results. Two candidates (A and B) are seeking endorsement at their party convention. A random sample of 3600 voters has been taken and divided at random into 9 sets of 400. All voters will be asked if they support candidate A. However, before the question is asked, they will either be told a) that the poll is funded by candidate A,  b) that the poll if funded by candidate B, or c) nothing. Due to logistical constraints, all voters in a given set (of 400) must be given the same information; the response for a set of 400 is the number supporting candidate A.
+
+Experimental Units: 3600 voters 
+
+Factors: 1
+
+Treatments: 3, Funded by A, Funded by B, N/A
+
+Blocks: Each of the 9 sets of 400 voters
+
+
+b. A garden club wishes to compare two nontraditional fungicides to a traditional fungicide and to “no treatment”. Forty-eight rose bushes will be planted in a 12 by 4 arrangement. Four volunteers will plant and care for the bushes (each being responsible for a column of 12 specific bushes). 2.     
+
+Experimental Units: 48 rose bushes
+
+Factors: 
+
+Treatments: nontraditional, traditional, no treatment
+    - treatments should be randomly assigned
+
+Blocks: each column of 12 bushes
+
+
+
+(30 pts) In many integrated circuit manufacturing steps, wafers are completely coated with a layer of material such as silicon dioxide or a metal. The unwanted material is then selectively removed by etching through a mask, thereby creating circuit patterns, electrical interconnects, and areas in which diffusion or metal depositions are to be made. A plasma etching process is widely used for this operation, particularly in small geometry applications. The figure shows the important features of a typical single-wafer etching tool. Energy is supplied by a radio-frequency (RF) generator causing plasma to be generated in the gap between the electrodes. The chemical species in the plasma are determined by the particular gases used. Fluorocarbons, such as CF4 (tetrafluoromethane) or C2F6 (hexafluoroethane), are often used in plasma etching, but other gases and mixtures of gases are relatively common, depending on the application.
+
+An engineer is interested in investigating the relationship between the RF power setting and the etch rate for this tool. The objective of an experiment like this is to model the relationship between etch rate and RF power, and to specify the power setting that will give a desired target etch rate. She is interested in a particular gas(C2F6) and gap (0.80cm) and wants to test four levels of RF power: 160, 180, 200, and 220 W. She decided to test five wafers at each level of RF power.
+
+
+a.   (10 pts) Identify the following questions
+
+Factor(s): RF power, wafer
+
+Response variable: etch speed
+
+Objective of the experiment: 
+
+Treatment(s): 4 different power levels, 5 different wafer types
+
+Replicates: None
+
+
+b.   (5 pts) Use R to randomly assign the 20 experimental units to the treatments with seed of 4100.
+```{r}
+set.seed(4100)
+treatments <- rep(1:20); treatments
+treatment_assignments <- sample(treatments); treatment_assignments
+```
+
+
+c.    (15 pts) Write a statistical model for the data analysis, and interpret each term in your model.
+
+
+Model:    Yij = M + deltai + Yj + Eij + (delta*y)ij
+
+Yij = etch rate(response), with RF power i and Wafer j
+
+M = Increase is speed from something other than power or water
+
+deltai = increase from RF Power i = (1, 2, 3, 4)
+
+Yj = increase from Wafer j = (1, 2, 3, 4 ,5)
+
+Eij = Random error
+
+(delta*y)ij = additional interaction between RF power and Wafer
+
+
