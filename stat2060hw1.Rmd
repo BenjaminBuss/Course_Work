@@ -2,7 +2,9 @@
 title: "STAT 2060 HW 1"
 author: "Benjamin Buss"
 date: "1/22/2020"
-output: html_document
+output:
+  word_document: default
+  html_document: default
 ---
 #Homework 1 - STAT 2060 - Benjamin Buss
 1. (6 pts) Enter the following data in R and call it P1:
