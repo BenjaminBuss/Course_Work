@@ -1,0 +1,25 @@
+---
+title: "STATS 2060 - Quiz 3 - Benjamin Buss"
+output:
+  word_document: default
+  html_notebook: default
+---
+
+1. (1 pts) Download the file, clubhead.csv, and then read it into R.
+```{r}
+clubhead <- read.csv("C:/Users/benja/Downloads/clubhead.csv")
+```
+
+2. (2 pts) compute the sample mean of speed and the mean of distance.
+```{r}
+mean(clubhead$speed)
+mean(clubhead$distance)
+```
+
+3. (2 pts) compute the sample standard deviation of speed and the sample standard deviation of distance.
+```{r}
+sd(clubhead$speed)
+sd(clubhead$distance)
+```
+
+
