@@ -1,0 +1,345 @@
+---
+title: "Stats 2050 Project 1"
+author: "Benjamin Buss"
+date: "January 18, 2019"
+output:
+  word_document: default
+  pdf_document: default
+  html_document: default
+---
+
+```{r include = FALSE}
+knitr::opts_chunk$set(echo=FALSE)
+library(readxl)
+#Class_Survey_Data_Final <- read_xlsx("/home/lightsong/Downloads/Class_Survey_Data_Final.xlsx")
+#Class_Survey_Data_Final <- read_xlsx("C:/Users/10764793/Downloads/Class_Survey_Data_Final.xlsx")
+Class_Survey_Data_Final <- read_xlsx("C:/Users/benja/Documents/Class_Survey_Data_Final.xlsx")
+attach(Class_Survey_Data_Final)
+library(ggplot2)
+library(summarytools)
+```
+
+
+
+##### Question 1. 
+
+Consider the following information related to the fast-food Hamburgers. Determine whether each variable is qualitative or quantitative. If it is quantitative, the determine whether it is discrete or continuous. Justify your answer. Also, determine the level of measure of each variable.
+
+Restaurant: Qualitative, continuous, nominal.
+
+Type: Qualitative, continuous, nominal.
+
+Serving Size Grams:  Quantitative, continuous, ratio.
+
+Calories: Quantitative, continuous, ratio.
+
+Total Fat: Quantitative, continuous, ratio.
+
+Saturated Fat: Quantitative, continuous, ratio.
+
+Trans Fat: Quantitative, continuous, ratio.
+
+Carbs: Quantitative, continuous, ratio.
+
+Sodium_mg: Quantitative, continuous, ratio.
+
+
+##### Question 2. 
+
+(a) Bar and Pie charts are appropriate for what variables? What about stem and leaf plot, dot plot, and histogram? 
+
+Bar and Pie charts are appropriate for: Gender, Marital Status, Do you have a baby, do you believe in God, do you believe in the afterlife, major, education level, part time job, are you on education loan, have you been out of the county.
+
+Stem and leaf plot, dot plot, and histogram are appropriate for: Age, Height, Weight, GPA, how many babies, Do you have a part time job, How much TV do you watch per day, how much do you owe, how many states have you been to, income, expense.
+
+(b) What sort of graphical method should we use to find the relationship between the "Income" and "Expenses" variables?
+
+We should use a dot plot to find the relationship between the "Income" and "Expense" variables.
+
+
+##### Question 3. 
+
+(a) Make a frequency table for "Education Level" in the dataset "class_survey_data_final"
+```{r}
+#education <- table(Education_Level)
+#education
+#margin.table(education, 1)
+#prop.table(education)
+#https://www.statmethods.net/stats/frequencies.html
+summarytools::freq(Education_Level)
+#https://dabblingwithdata.wordpress.com/2017/12/20/my-favourite-r-package-for-frequency-tables/
+```
+
+
+
+(b) Make a two way table for "Do you believe in God" and "Education level". Describe the distribution.
+```{r}
+doYouEducation <- table(`Education_Level`, `God`)
+doYouEducation #prints table
+```
+
+The distribution doesn't seem to make any sense
+
+
+##### Question 4. 
+
+Consider the variable expense in "class_survey_data_final"
+
+(a) Construct and describe a stem and leaf plot
+```{r}
+stem(Expense)
+#http://www.r-tutor.com/elementary-statistics/quantitative-data/stem-and-leaf-plot
+```
+The stem and leaf plot of Expenses looks like a right skewed distribution with a center around 800. It ranges from 0 to 2700.
+
+
+(b) Construct a frequency distribution. 
+```{r}
+ExpenseData <- read_xlsx("C:/Users/benja/Documents/ExpenseData.xlsx")
+ExpenseData
+```
+
+
+(c) Draw the histogram and describe the histogram.
+```{r}
+hist(Expense)
+```
+
+The histogram is right skewed. It has a balancing point around 800, with a variance of 0 to 3000.
+
+
+(d) Graph the frequency polygon and Ogive function. Using the ogive find the median expense.
+
+
+
+The median expense is 750
+
+
+(e) Calculate the sample mean, and sample standard deviation.
+
+The mean is `r mean(Expense)`
+
+The standard deviation is `r sd(Expense)`
+
+
+(f) Use the sample mean and sample standard deviation to determine whether 2500 is an outlier or not. Show your work and explain the results
+
+The Upper Bound is Q3 + 1.5(Q3-Q1) 
+
+So the upper bound for expenses would be 1000 + 1.5(1000 - 480) = `r 1000 + (1.5 * (1000 - 480))`.
+
+So 2500 would be an outlier because it is greater than the upper bound.
+
+
+(g) Find the five number summary.
+```{r}
+#fivenum(Expense)
+summary(Expense)
+#https://chemicalstatistician.wordpress.com/2013/08/12/exploratory-data-analysis-the-5-number-summary-two-different-methods-in-r-2/
+```
+
+
+(h) Construct a box plot. Describe the shape of the distribution. 
+```{r}
+boxplot(Expense)
+```
+
+The boxplot is right skewed. With a middle point around 800 and a spread of 0 to 3000.
+
+
+(i)Identify any outlier(s) obtained from the box plot.
+
+Based off of the box plot, there are four outliers. One around 2800, one around 2500, one around 2000, and one around 1800
+
+
+(j) Use the IQR formula to identify any outliers. Show your work.
+
+Lower Bound: Q1 - 1.5(Q3-Q1) = 480 - 1.5(1000 - 480) = `r 480-1.5*(1000-480)`
+
+Upper Bound: Q3 + 1.5(Q3-Q1) = 1000 + 1.5(1000 - 480) = `r 1000+1.5*(1000-480)`
+
+The outliers are: 6000, 2500, 2000, 2000, 2000, 2000, 2000, 2000, 2000, 2000, and 1800.
+
+
+##### Question 5.
+
+The following boxplot is drawn using the data representing the profit(in dollars) of a new car dealer for a random sample of 40 sales.
+
+(a) Describe the shape of the distribution of sale profit of a new car.
+
+It is a right skewed distribution.
+
+
+(b) Should the sample mean or the sample median be used as the center of measurement for the sales profit data? Explain your choice.
+
+The median should be used because it is a non-symmetric data-set with the possibility of outliers in the data.
+
+
+(c) Should the sample standard deviation or the interquartile range be used as the measure fo variability for the sales profit data? Explain your choice.
+
+You should use interquartile range because it is a non-symmetric data set with the possibility of outliers.
+
+
+#####Question 6.
+
+Consider "Height" in "class_survey_data_final"
+
+(a) Find the summary statistics ignoring the gender.
+```{r}
+summary(Height)
+```
+
+
+(b) Find the summary statistics for male and female students separately and compare the results. Which group of students have more variability in height?
+
+Male Summary:
+```{r}
+#I used excel's "filter" function to sort out male and female students and created seperate columns full of male/female height/weight
+summary(Height_Male, na.rm = TRUE)
+```
+
+Female Summary:
+```{r}
+summary(Height_Female, na.rm = TRUE)
+```
+
+Men's minimum and maximum height is `r range(Height_Male, na.rm = TRUE)`. The difference of these is `r max(Height_Male, na.rm = TRUE) - min(Height_Male, na.rm = TRUE)`. 
+
+Women's minimum and maximum height is `r range(Height_Female, na.rm = TRUE)`. The difference of these is `r max(Height_Female, na.rm = TRUE) - min(Height_Female, na.rm = TRUE)`. 
+
+So men have a larger spread of height.
+
+
+##### Question 7. 
+
+Consider "Weight" in "class_survery_data_final".
+
+(a) Draw side by side boxplots for male and female weight.
+
+```{r}
+genders <- c("Male", "Female")
+boxplot(Weight_Male, Weight_Female, names=genders, horizontal = TRUE)
+#https://www2.southeastern.edu/Academics/Faculty/dgurney/Math241/StatTopics/R%20Stats/BoxplotsSbyS.pdf
+```
+
+
+(b) Which group of students has more dispersion?
+
+Men's minimum and maximum weight is `r range(Weight_Male, na.rm = TRUE)`. The difference of these is `r max(Weight_Male, na.rm = TRUE) - min(Weight_Male, na.rm = TRUE)`. 
+
+Women's minimum and maximum weight is `r range(Weight_Female, na.rm = TRUE)`. The difference of these is `r max(Weight_Female, na.rm = TRUE) - min(Weight_Female, na.rm = TRUE)`. 
+
+So men's weight has a greater dispersion than women.
+
+
+##### Question 8.
+
+Draw a histogram of GPA and run summary statistics. Can you apply the empirical rule to find the percentage of data within a specified standard deviation? Explain
+```{r}
+hist(GPA)
+summary(GPA)
+```
+
+The histogram of GPA is left skewed. The histogram has a balancing point around 3.5 and has a spread from 2.5 to 4.
+
+You can use the empirical rule to find the percentage of data within a specified standard deviation because the data is symmetric.
+
+
+##### Question 9.
+
+Consider "Age" in "class_survey_data_final".
+
+(a) Draw the histogram and describe the shape of the distribution.
+```{r}
+hist(Age)
+```
+The histogram of age is right skewed with a center around 22 and a range from around 17 to 34.
+
+(b) Can you apply the empirical rule to find the percentage of data within a specified standard deviation from the mean age? Explain.
+
+No you can not. The data of age is a non-symmetric skewed data set.
+
+
+(c) Identify the outliers using IQR formula and discard them from the data. Then draw the histogram and describe the shape of the distribution. Now can you apply the empirical rule to find the percentage of data within a specified standard deviation from the mean age? Explain.
+
+Lower Bound = 20 - 1.5(25 - 20) = 12.5
+
+Upper Bound = 25 + 1.5(25 - 20) = 32.5
+
+Discard: 34, 34
+
+```{r}
+hist(age_cleaned)
+means <- c(mean(age_cleaned, na.rm = TRUE))
+stand <- c(sd(age_cleaned, na.rm = TRUE))
+```
+
+The histogram is a right skewed distrubution with a balancing point around 22. It has a spread of about 14, from 16 to 32.
+
+The mean is `r means` and the standard deviation is `r stand`
+
+Yes, you can now use the empirical rule to find the percentage of data because it is a symmetric data set.
+
+
+(d) If yes in (c) use the empirical rule to find the expenses within 68%, 95%, and 99.7% observations lie.
+
+The mean is `r means` and the standard deviation is `r stand`
+
+68% of the data falls between `r means - stand` and `r means + stand`.
+
+95% of the data falls between `r means - stand * 2` and `r means + 2 * stand `.
+
+99.7% of the data falls between `r means - stand * 3` and `r means + 3 * stand`.
+
+
+##### Question 10.
+
+The following data represents the number of live multiple-delivery births (three or more babies) in 2007 for women 15 to 54 years.
+
+   Age    |	Number of Multiple Births
+----------|--------------------------
+15-19     |      100
+20-24     |      467
+25-29     |      1620
+30-34     |      2262
+35-39     |      1545
+40-44     |      328
+45-49     |      85
+50-54	    |      20
+
+
+(a) Approximate the mean and standard deviation for age.
+
+The mean is around 31.8, with the standard deviation being around 5.7.
+
+
+(b) Draw a frequency histogram of the data to verify that the distribution is symmetric.
+```{r}
+Birth <- c(100, 467, 1620, 2262, 1545, 328, 85, 20)
+barplot(Birth, main = "Live Multiple Births", xlab = "Age", names.arg = c("15-19", "20-24", "25-29", "30-34", "35-39", "40-44", "45-49", "50-54"))
+```
+
+The data for multiple-delivery births is symmetric.
+
+
+(c) According to the empirical rule, 95% of mothers of multiple births will be between what two ages?
+
+The mean is about 31.8 and the standard deviation is about 5.7.
+
+So 95% of the data falls between `r 31.8-5.7-5.7` and `r 31.8+5.7+5.7`.
+
+
+##### Question 11.
+
+The average 20 to 29 year old man is 69.6 inches tall, with a standard deviation of 3.0 inches, while the average 20 to 29 year old woman is 64.1 inches tall, with a standard deviation of 3.8 inches. Who is relatively taller, a 67-inch man or a 62-inch woman?
+
+The man is `r 69.6-67` inches below the average and the woman is `r 64.1-62` inches below average. So the man's Z-score is about `r (67-69.6)/3`, and the womans Z-score is about `r (62-64.1)/3.8`. 
+
+So the woman is relatively taller and the man is relatively shorter.
+
+
+##### Question 12.
+
+A highly selective boarding school will only admit students who place at least 1.5 standard deviations above the mean on a standardized test that has a mean of 200 and a standard deviation of 26. What is the minimum score that an applicant must make on the test to be accepted?
+
+The minimum score that will be accepted is `r 26*1.5+200`.
