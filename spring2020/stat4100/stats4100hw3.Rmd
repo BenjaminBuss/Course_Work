@@ -1,0 +1,148 @@
+---
+title: "STAT 4100 - HW3(II) - BENJAMIN BUSS"
+output:
+  word_document: default
+  pdf_document: default
+  html_notebook: default
+---
+```{r}
+library(tidyverse)
+library(emmeans)
+```
+
+
+## 1. For the model in the previous exercise, find an unbiased estimator for σ2. (Hint: first calculate E[ssE0] in (3.5.10), p. 42.)
+
+Yi t = μ+τ +0 i t (t = 1, . . . , ri ; i = 1, 2, . . . , v), where the 0 i t ’s are independent random variables with mean zero and variance σ2.
+
+
+
+
+
+
+## 2. Balloon experiment
+
+Prior to 1985, the experimenter (Meily Lin) had observed that some colors of birthday balloons
+seem to be harder to inflate than others. She ran this experiment to determine whether balloons
+of different colors are similar in terms of the time taken for inflation to a diameter of 7 inches.
+Four colors were selected from a single manufacturer. An assistant blew up the balloons and the
+experimenter recorded the times (to the nearest 1/10 second) with a stop watch. The data, in the
+order collected, are given in Table 3.13, where the codes 1, 2, 3, 4 denote the colors pink, yellow,
+orange, blue, respectively.
+```{r}
+ballon_data <- data.frame("Time" = c(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 
+                                     24, 25, 26, 27, 28, 29, 30, 31, 32), "Color" = c(1, 3, 1, 4, 3, 2, 2, 2, 3, 1, 2, 
+                                                                                      4, 4, 4, 3, 1, 2, 1, 4, 3, 1, 4, 
+                                                                                      4, 2, 2, 4, 2, 3, 3, 1, 1, 3), 
+                          "Inflation" = c(22.0, 24.6, 20.3, 19.8, 24.3, 22.2, 28.5, 25.7, 20.2, 19.6, 28.8, 24, 17.1, 
+                                          19.3, 24.2, 15.8, 18.3, 17.5, 18.7, 22.9, 16.3, 14.0, 16.6, 18.1, 18.9, 16, 
+                                          20.1, 22.5, 16, 19.3, 15.9, 20.3))
+ballon_data$Color.fac <- as.factor(ballon_data$Color)
+```
+
+
+(a) Plot inflation time versus color and comment on the results.
+```{r}
+boxplot(ballon_data$Inflation ~ ballon_data$Color, xlab = "Color", ylab = "Inflation")
+```
+The second color seems to be slightly higher than the rest
+
+
+(b) Estimate the mean inflation time for each balloon color, and add these estimates to the plot from
+part (a).
+
+```{r}
+means <- as.data.frame(tapply(ballon_data$Inflation, ballon_data$Color.fac, mean))
+means <- means %>% mutate(Color = c(1:4)) %>% rename(Mean = `tapply(ballon_data$Inflation, ballon_data$Color.fac, mean)`)
+means
+
+
+boxplot(ballon_data$Inflation ~ ballon_data$Color, xlab = "Color", ylab = "Inflation")
+points(means$Color, means$Mean, cex = 1.20) 
+text(1:4 - 0.25, means$Mean, labels = means$Mean)
+```
+
+
+(c) Construct an analysis of variance table and test the hypothesis that color has no effect on inflation
+time.
+```{r}
+model <- lm(Inflation ~ Color.fac, data = ballon_data)
+anova(model)
+# Hypothesis Test
+summary(model)
+```
+
+
+(d) Plot the data for each color in the order that it was collected. Are you concerned that the assumptions
+on the model are not satisfied? If so, why? If not, why not?
+
+```{r}
+plot(ballon_data$Time, ballon_data$Inflation, xlab = "Time", ylab = "Inflation")
+```
+Yes, overall the results decrease over time reguardless of color. There could be outside factors from things such as the tank decreasing in pressure affecting the results.
+
+
+(e) Is the analysis conducted in part (c) satisfactory?
+
+Based off of what was found in part (d) what was done in part (c) may not be satisfactory. Since there may be large error from how the experiment was conducted.
+
+
+
+## 3. Trout experiment (Gutsell 1951, Biometrics)
+
+The data in Table 3.15 show the measurements of hemoglobin (grams per 100 ml) in the blood of
+brown trout. The trout were placed at random in four different troughs. The fish food added to the
+troughs contained, respectively, 0, 5, 10, and 15 g of sulfamerazine per 100 pounds of fish (coded
+1, 2, 3, 4). The measurements were made on ten randomly selected fish from each trough after 35
+days.
+```{r}
+trout_data <- data.frame('Result' = c(6.7, 7.8, 5.5, 8.4, 7, 7.8, 8.6, 7.4, 5.8, 7.0, 9.9, 8.4, 10.4, 9.3, 10.7, 11.9, 
+                                      7.1, 6.4, 8.6, 10.6,9.3, 9.3, 7.2, 7.8, 9.3, 10.2, 8.7, 8.6, 9.3, 7.2), 
+                         "Treatment" = c(rep(1, 10), rep(2, 10), rep(3, 10)))
+trout_data$TreatFac = as.factor(trout_data$Treatment)
+```
+
+(a) Plot the data and comment on the results.
+```{r}
+boxplot(trout_data$Result ~ trout_data$Treatment, xlab = "Treatment", ylab = "Result")
+```
+The second treatment seems to have the greatest variance
+
+
+
+(b) Write down a suitable model for this experiment, assuming trough effects are negligible.
+
+
+Yi = M + Ti + Ei    Eit ~ N(0, o) i.i.d w/ i = 1, 2, 3. . . o AND t = 1, 2, 3. . . t
+
+
+
+
+
+(c) Calculate the least squares estimate of the mean response for each treatment. Show these estimates on the plot obtained in (a). Can you draw any conclusions from these estimates?
+```{r}
+model <- lm(Result ~ TreatFac, data = trout_data)
+lsmean <- lsmeans(model, "TreatFac"); lsmean
+X <- summary(lsmean)
+
+boxplot(trout_data$Result ~ trout_data$Treatment, xlab = "Treatment", ylab = "Result")
+points(1:3, as.numeric(X$lsmean))
+text(1:3 - 0.2, as.numeric(X$lsmean), labels = X$lsmean)
+```
+
+
+(d) Test the hypothesis that sulfamerazine has no effect on the hemoglobin content of trout blood.
+```{r}
+summary(model)
+```
+
+
+(e) Calculate a 95% upper confidence limit for σ2.
+```{r}
+r = 4
+n = 10
+v = 4
+s.var = tapply(trout_data$Result, trout_data$TreatFac, var)
+sigma2.hat.upper = sum((r-1)*s.var)/qchisq(0.975, n - v); sigma2.hat.upper
+```
+
