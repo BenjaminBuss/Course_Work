@@ -1,0 +1,148 @@
+---
+title: "STAT 4000 - HW 4 - BENJAMIN BUSS"
+output: html_notebook
+---
+
+Assignment details: based off of Boston1970-1 dataframe, predict the MedianHomeValue for the Neighborhood in the unpriced Neighborhood dataframe.
+
+
+
+# 1 Load and Normalize data
+```{r}
+library(tidyverse)
+Boston1970.1 <- read.csv("~/class_work/Boston1970-1.csv")
+UnpricedNeighborhood <- read.csv("~/class_work/UnpricedNeighborhood.csv")
+normalize <- function(x) (x - min(x)) / (min(x)- max(x))
+data <- Boston1970.1 %>% select(2:14)
+added_data <- bind_rows(UnpricedNeighborhood, Boston1970.1)
+normalized_data <- added_data %>% mutate_all(normalize)
+cleaned_data <- normalized_data %>% slice(2:506)
+predictors <- normalized_data %>% slice(1)
+```
+
+
+
+
+# 2 Formula to Calculate Euclidian distance
+
+Calculate D(x, xi), where 'i' =1, 2, ….., n and 'D' is the Euclidean measure between the data points.
+The calculated Euclidean distances must be arranged in ascending order.
+Initialize k and take the first k distances from the sorted list.
+Figure out the k points for the respective k distances.
+Calculate ki, which indicates the number of data points belonging to the ith class among k points i.e. k ≥ 0
+If ki >kj ∀ i ≠ j; put x in class i.
+```{r}
+# -------- Manual, Mutilated Version of K-Means complete with weights --------
+# ============================================================================
+
+# Calculate distance between single point x and y
+diffsq <- function(x, y) {
+    # x = single value
+    # y = single value
+    # returns single value
+    diffsquared = (x - y)^2
+    return(as.numeric(diffsquared))
+}
+
+# Calculates euclidian distance between df x and df y
+distance <- function(x, y, weights) {
+    # x     : single observation of df
+    # y     : single observation of df
+    # weights: dataframe or vector of weights
+    # returns: single number of Euclidian distance between x and y with given weight
+    sums  = 0 
+    for(i in 1:length(data)) {
+        sums = sums + (weights[i] * diffsq(x[i], y[i]))
+    }
+    knn_distance <- sqrt(sums)
+    return(knn_distance)
+}
+
+# Calculates Euclidian distance between predictor dataframe, and *ALL* training values
+#   selects K Nearest-Neighbors and returns an array of the values for those Neighborhoods
+knn_calc <- function(pred, base, weights, k) {
+    # pred   : data frame of predictors
+    # base   : data frame of comparison
+    # weights: array/df of "weights" per value
+    # k      : number of Nearest Neighbors to select
+    # returns: array of value of k-nearest-neighbors
+    knn_values <- array(1:nrow(data))
+    for(i in 1:nrow(data)) {
+        knn_values[i] <- distance(pred, base %>% slice(i), weights)
+    }
+    knn_df <- as.data.frame(knn_values)
+    knn_df <- knn_df %>% rowid_to_column(var = "id") %>% arrange(knn_values) %>% slice(1:k)
+    knn_df <- inner_join(knn_df, Boston1970.1 %>% select(Number, MedianHomeValue), by = c("id" = "Number"))
+    value <- knn_df %>% pull(MedianHomeValue)
+    return(value)
+}
+
+# Computes weights of each column based off a simple linear regression. 
+#   returns array of weights consisting of coefficient of linear regression.
+weight_calc <- function(df) {
+    # df      : data frame with column named "value"
+    # returns : array of weights
+    n = as.numeric(length(df)) - 1
+    weights <- rep(1, n)
+    for(i in 1:n) {
+        positions <- c(i, 14)
+        temp <- df %>% select(positions) %>% rename(pred = 1)
+        model <- lm(value ~ pred, data = temp)
+        
+        weights[i] <- model$coefficients[2]
+    }
+    #weight_test <- weights / sum(weights)
+    return(weights)
+}
+```
+
+
+
+
+
+
+
+# 3 Giving it the good old college try
+```{r, message = FALSE, warnings = FALSE}
+k = 10
+
+weights <- weight_calc(Boston1970.1 %>% select(2:15) %>% rename(value = MedianHomeValue))
+
+test_weights <- rep(1, 13)
+
+abs_weights <- abs(weights)
+
+sum_weights <- abs(weights / sum(weights))
+
+start <- Sys.time()
+# Testing weight = coeff
+xx <- suppressWarnings(knn_calc(predictors, cleaned_data, weights, k))
+
+# Testing no weights(weight = 1)
+yy <- knn_calc(predictors, cleaned_data, test_weights, k)
+
+# zz <- knn_calc(predictors, cleaned_data, abs_weights, k)
+
+# aa <- knn_calc(predictors, cleaned_data, sum_weights, k)
+
+# Print out results
+print("Weight = coefficient of lm")
+print(paste0("Mean:  ", mean(xx)))
+print(paste0("Median: ", median(xx)))
+print(paste0("Variance:  ", var(xx)))
+print(paste0("Range:  ", max(xx) - min(xx)))
+summary(xx)
+# w/o weights
+print(" ** No weights **")
+print(paste0("Mean:  ", mean(yy)))
+print(paste0("Median: ", median(yy)))
+print(paste0("Variance:  ", var(yy)))
+print(paste0("Range:  ", max(yy) - min(yy)))
+summary(yy)
+
+
+# Actual Value = 30.7
+
+```
+
+
