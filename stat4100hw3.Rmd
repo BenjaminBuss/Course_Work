@@ -1,6 +1,0 @@
----
-title: "stats4100hw3"
-author: "Benjamin Buss"
-date: "1/22/2020"
-output: word_document
----
