@@ -16,7 +16,7 @@ Contains scripts from:
 
 Contains scripts from:
 - STAT 2060(Statistical Computing): A one credit class that goes over the basics of R and SAS focusing on Stats work, over more general R programming skills
-- STAT 4000(Regression and Time Series Analysis): An odd class which attempts to mesh theory and application, having us sometimes hand write premade algorithms, sometimes use premade stuff(IE determining linear regression coefficients using matrix multiplication instead of 'lm' and 'predict'.
+- STAT 4000(Regression and Time Series Analysis): An odd class which attempts to mesh theory and application, having us sometimes hand write premade algorithms, sometimes use premade stuff(IE determining linear regression coefficients using matrix multiplication instead of `lm` and `predict`.
 - STAT 4100(Design of Experiment): A theory heavy course with very little playing around with code. Most of this stuff is just writing formulas in R instead of by hand.
 
 ## Misc
