@@ -1,0 +1,38 @@
+---
+title: "STAT 2060 - Quiz 4- Benjamin Buss"
+output:
+  word_document: default
+  html_notebook: default
+---
+
+
+One of the biggest factors in determining the value of a home is the square footage. The following data represent the square footage and asking price (in thousands of dollars) for a random sample of homes for sale in Naples, Florida, in December 2013.
+
+1. (1 pts) Download the sample data, houseprice.csv, and then read it into R.
+```{r}
+houseprice <- read.csv("houseprice.csv")
+```
+
+2. (1 pts) use R functions, colMeans() or apply(),  to find the sample means and sample standard deviations of square footage and asking price. 
+```{r}
+means <- apply(houseprice, 2, mean); means
+stds <- apply(houseprice, 2, sd); stds
+```
+
+3. (1 pts) use R function to find the correlation coefficient r.
+```{r}
+coeff <- cor(houseprice$Square.Footage,  houseprice$Asking.price); coeff
+```
+
+4.  (1 pts) use formula slope=LaTeX: r\frac{S_y}{S_x}r S y S x, y-intercept=LaTeX: ybar-slope\:\times xbary b a r − s l o p e × x b a r to find the least squares regression line. 
+```{r}
+slope = coeff * (stds[1]/stds[2])
+inter = means[1] - slope * means[2]
+```
+
+5. (1 pts) use R function to check your result in part 4.
+```{r}
+model <- lm(Square.Footage ~ Asking.price, data = houseprice)
+summary(model)
+```
+
