@@ -1,6 +1,9 @@
 # Course Work
 
-A repo where I just shove all the R I do in class, contains everything from side experiments, to assignments and quizes for my stats classes(even the ones I did bad on). 
+A repo where I just shove all the R I do in class, contains everything from side experiments, to assignments and quizes for my stats classes(even the ones I did bad on). Most the stuff in here is pretty messy but I like to be able to easily view and share my coursework with my classmates. 
+
+I try to keep #Sample_Work updated with my favorite(and cleanest) assignments.
+
 
 ## fall2019andearlier
 
