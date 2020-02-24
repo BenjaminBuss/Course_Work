@@ -1,0 +1,110 @@
+---
+title: "STAT 4100 - EXAM ONE TAKE HOME - BENJAMIN BUSS"
+output: html_notebook
+---
+
+Exam I (Portion II, Take home test)
+Take-home exam policy: 
+	You will not be allowed extra time or allowed to work with the tutors in math lab, stats lab or other resources. You will not be allowed any discussion with the classmates. Otherwise, you will receive zero for the exam. You can use textbook and lecture notes.
+	The graphs should be drawn by using R or any other statistical packages.
+	The take home test should be turned in before the class on Friday, Feb 28.
+Thanks.
+
+	(50 pts) Consider an experiment designed to test the effect of nematodes (microscopic worms) on plant growth. A botanist prepares 16 identical planting pots and then introduces different numbers of nematodes into the pots. Four pots get 0 nematodes, four get 1,000, four get 5,000, and four get 10,000. A tomato seedling is transplanted into each pot. Seedlings are assigned to pots (i.e., to treatments) using a completely randomized design. Below are the data on the increase in height of the seedlings in centimeters 15 days after planting.
+```{r}
+nematodes <- data.frame(Number = c(rep(0, 4), rep(1000, 4), rep(5000, 4), rep(10000,4)), Growth = c(10.8, 9.1, 13.5, 9.2, 11.1, 11.1, 8.2, 11.3, 5.4, 4.6, 7.4, 5, 5.8, 5.3, 3.2, 7.5))
+```
+
+
+A	(5 pts) Assign at random 16 identical planting pots to the four treatments with each treatment of 4 units. Using seed 4100, what is the order of the units regarding the order of Number of Nematodes? Fill in the blanks in above table.
+```{r}
+set.seed(4100)
+nematodes$Order <- sample(1:16, 16, replace = F)
+nematodes
+```
+
+B	(5 pts) Plot seedling growth versus number of nematodes and comment on the result.
+```{r}
+ggplot(nematodes, aes(y = Growth, x = Number)) + geom_point() #group = Number))+ geom_boxplot()
+
+ggplot(nematodes, aes(x = Growth, y = Number, group = as.factor(Number))) + geom_boxplot()
+
+```
+
+C	(8 pts) Construct an analysis of variance table and test the hypothesis that number of nematodes has no effect on seedling growth with α=0.05.  What is the type I error rate of this procedure? 
+```{r}
+model <- lm(nematodes$Growth ~ as.factor(nematodes$Number))
+anova(model)
+```
+
+D	 (10 pts) The experimenter requires to find 95% confidence intervals for these differences, 1/2 (τ_0+τ_1000 )-1/2(τ_5000+τ_10000), τ_0-1/3(τ_1000 〖+τ〗_5000+τ_10000). Find CIs for the two target parameters (8 pts). What is the type I error rate of this procedure (2 pts)? 
+```{r}
+
+```
+
+
+
+E	(8 pts) After looking at the data and data plot in part b, the experimenter requires to construct a family of confidence intervals for 1/2 (τ_0+τ_1000 )-1/2(τ_5000+τ_10000) and  τ_0-1/3(τ_1000 〖+τ〗_5000+τ_10000) with the experiment-wise error rate of 0.05. 
+```{r}
+
+```
+
+
+
+F	(6 pts) Use Tukey’s method for all pairwise comparison with the experiment-wise error rate of 0.05
+```{r}
+
+```
+
+
+
+G	(6 pts) Use Bonforroni’s method for all pairwise comparison with the experiment-wise error rate of 0.05.
+```{r}
+
+```
+
+
+
+H	(2 pts) Compare the results between f and g, and comments the differences of the two methods.
+```{r}
+
+```
+
+
+
+
+Extra Points (8 pts)
+	Trout experiment, continued Exercise 15 of Chapter 3 (page 67) concerns a study of the effects of four levels of sulfamerazine (0, 5, 10, 15 grams per 100 lb of fish) on the hemoglobin content of trout blood. An analysis of variance test rejected the hypothesis that the four treatment effects are the same at significance level α = 0.01. 
+```{r}
+trout <- data.frame(Sulfa = c(rep(1, 10), rep(2, 10), rep(3, 10), rep(4, 10)), Hemo = c(6.7, 7.8, 5.5, 8.4, 7, 7.8, 8.6, 7.4, 5.8, 7.0, 9.9, 8.4, 10.4, 9.3, 10.7, 11.9, 7.1, 6.4, 8.6, 10.6, 10.4, 8.1, 10.6, 8.7, 10.7, 9.1, 8.8, 8.1, 7.8, 8, 9.3, 9.3, 7.2, 7.8, 9.3, 10.2, 8.7, 8.6, 9.3,7.2))
+```
+
+(a) (2 pts) Compare the four treatments using Tukey’s method of pairwise comparisons and a 99% overall confidence level.
+```{r}
+
+```
+
+
+
+(b) (2 pts) Compare the four treatments using scheffe’s method of pairwise comparisons and a 99% overall confidence level. 
+```{r}
+
+```
+
+
+
+(c) (2 pts) Compare the effect of no sulfamerazine on the hemoglobin content of trout blood with the average effect of the other three levels. The overall confidence level of all intervals in parts (a) and (d) should be at least 98%. 
+```{r}
+
+```
+
+
+
+(d) (2 pts) We were interested in three contrasts,  a .τ_1-τ_2, b .τ_1-1/3(τ_2+τ_3+τ_4) , c. 1 /2(τ_1+τ_2)-1/2(τ_3+τ_4), after we looked the data. Test whether each one is zero with family wise error rate of 0.05.
+```{r}
+
+```
+
+
+
+
