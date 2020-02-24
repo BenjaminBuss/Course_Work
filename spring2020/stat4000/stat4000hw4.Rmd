@@ -32,8 +32,8 @@ Figure out the k points for the respective k distances.
 Calculate ki, which indicates the number of data points belonging to the ith class among k points i.e. k ≥ 0
 If ki >kj ∀ i ≠ j; put x in class i.
 ```{r}
-# -------- Manual, Mutilated Version of K-Means complete with weights --------
-# ============================================================================
+# -------- Manual, Mutilated Version of K-Means(Or maybe K-Nearest Neighbors?) complete with weights --------
+# ===========================================================================================================
 
 # Calculate distance between single point x and y
 diffsq <- function(x, y) {
@@ -44,10 +44,10 @@ diffsq <- function(x, y) {
     return(as.numeric(diffsquared))
 }
 
-# Calculates euclidian distance between df x and df y
+# Calculates euclidian distance between df x and df y taking into account X weights
 distance <- function(x, y, weights) {
-    # x     : single observation of df
-    # y     : single observation of df
+    # x     : single observation(row) of df
+    # y     : single observation(row) of df
     # weights: dataframe or vector of weights
     # returns: single number of Euclidian distance between x and y with given weight
     sums  = 0 
