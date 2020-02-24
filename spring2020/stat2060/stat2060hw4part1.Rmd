@@ -1,0 +1,36 @@
+---
+title: "STAT 2060 - HW4(Part 1) - BENJAMIN BUSS"
+output: html_notebook
+---
+
+(6 pts) The amount of time Americans spend using iphone is closely monitored by firms such as A.C. Nielsen because this helps to determine advertising pricing for commercials
+
+a. (2 pts) According to American Time Use Survey, adult Americans spend 2.35 hours per day using iphone on a weekday. Assume that the standard deviation for “time spending using iphone on a weekday” is 1.93 hours. If a random sample of 40 adult Americans is obtained, describe the sampling distribution of  xbar, the mean amount of time spending iphone on a weekday. Use R to draw the density curve of xbar.
+```{r}
+data <- rnorm(40, 2.35, 1.93)
+
+```
+
+
+b. (2 pts) Determine the probability that a random sample of 40 adult Americans results in a mean time using iphone on a weekday of between 2 and 3 hours.
+```{r}
+
+```
+
+c. (2 pts) Find the mean time of watching television with 98th percentile.
+```{r}
+
+```
+
+2. (4 pts) A wildlife biologist examines frogs for a genetic trait he suspects may be linked to sensitivity to industrial toxins I the environment. Previous research had established that this trait is usually found in 1 of every 8 frogs. He collects and examines two-dozen frogs. If the frequency of the trait has not changed, what’s the probability he finds the trait in
+
+a. At least 5 frogs?
+```{r}
+
+```
+
+b.Ten or eleven frogs?
+```{r}
+
+```
+

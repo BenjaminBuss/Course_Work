@@ -1,0 +1,33 @@
+---
+title: "STAT 2060 - QUIZ 5 - BENJAMIN BUSS"
+output:
+  word_document: default
+  html_notebook: default
+---
+
+Suppose that a student’s verbal score X from next year’s Graduate Record Exam can be considered an observation from a normal population having mean 547 and standard deviation 120.
+
+(a)  (3 pts) Draw the density curve of X using the following function in R: seq(), dnorm(), and plot().
+```{r}
+#example <- dnorm(x = 1, mean = 547, sd = 120, n = 100)
+x <- rnorm(100, 547, 120)
+hist(x)
+
+xfit = seq(min(x), max(x), length = 100)
+yfit = dnorm(xfit, mean = mean(x), sd = sd(x))
+#lines(xfit, yfit)
+```
+
+(b) (1 pts) Use a function in R to compute the probability that a randomly selected student has verbal score more than 600.
+```{r}
+z = (600 - 547)/(120)
+pnorm(z, lower.tail = FALSE)
+```
+
+(c) (1 pts) Use a function in R to compute the Probability that a randomly selected student who's  score is below 400.
+```{r}
+z = (400 - 547)/(120)
+pnorm(z, lower.tail = TRUE)
+```
+
+

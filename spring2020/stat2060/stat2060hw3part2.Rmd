@@ -1,0 +1,49 @@
+---
+title: "STAT2060 - HW3(Part2) - BENJAMIN BUSS"
+output:
+  word_document: default
+  html_notebook: default
+---
+
+(5 pts)
+A researcher wants to know if the gestation period of an animal can be used to predict life expectancy. She collects the following data.  Use R to answer the following questions:
+
+ 
+```{r}
+data <- read.csv("stat2060hw3data.csv")
+```
+
+
+(Extra 3 pts) Use both formula and R function to test the existing of a linear association between two variables, report t test statistic and p-value.
+
+H0: p = 0
+Ha: p != 0
+```{r}
+model <- lm(Life.Expectancy ~ Gestation.Period, data = data)
+r = cor(data$Life.Expectancy, data$Gestation.Period)
+n = 10
+t.test.stat = r*sqrt(n-2)/(sqrt(1-r^2))
+
+p_value = pt(t.test.stat, df = 8)
+
+```
+
+(Extra 2 pts) Check the model assumptions.
+```{r}
+
+```
+
+(5 pts) Predict the life expectancy of animals with gestation periods of 50, 60, 70, 80, and 200 days. Comment on the predicted life expectancy of animal with the gestation of 200 days. 
+```{r}
+g50 = data.frame("Gestation.Period" = 50)
+g60 = data.frame("Gestation.Period" = 60)
+g70 = data.frame("Gestation.Period" = 70)
+g80 = data.frame("Gestation.Period" = 80)
+g200 = data.frame("Gestation.Period" = 200)
+predict(model, g50)
+predict(model, g60)
+predict(model, g70)
+predict(model, g80)
+predict(model, g200)
+```
+
